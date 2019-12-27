@@ -48,6 +48,30 @@ int main()
 		}
 
 		// calculate the minimum distance needed to arrive the terminal node
+		queue<int> q2;
+		q2.push(start);
+		nodes2[start].visit = 1;
+		nodes2[start].distance = 0;
+		while (!q2.empty())
+		{
+			int cur = q2.front();
+			q2.pop();
+			int dis = nodes2[cur].distance + 1;
+			for (int j = 0; j < list[cur].size(); j++)
+			{
+				int w = list[cur][j].weight;
+				int next = list[cur][j].to;
+				if (nodes2[next].visit == 0)
+				{
+					nodes2[next].visit = 1;
+					nodes2[next].distance = dis;
+					nodes2[next].pre = cur;
+					q2.push(next);
+				}
+			}
+		}
+
+		// consider the weight of edge
 		queue<int> q;
 		q.push(start);
 		nodes[start].visit = 1;
@@ -75,29 +99,6 @@ int main()
 			}
 		}
 
-		// consider the weight of edge
-		queue<int> q2;
-		q2.push(start);
-		nodes2[start].visit = 1;
-		nodes2[start].distance = 0;
-		while (!q2.empty())
-		{
-			int cur = q2.front();
-			q2.pop();
-			int dis = nodes2[cur].distance + 1;
-			for (int j = 0; j < list[cur].size(); j++)
-			{
-				int w = list[cur][j].weight;
-				int next = list[cur][j].to;
-				if (nodes2[next].visit == 0)
-				{
-					nodes2[next].visit = 1;
-					nodes2[next].distance = dis;
-					nodes2[next].pre = cur;
-					q2.push(next);
-				}
-			}
-		}
 		if (nodes[terminal].visit == 1 && 
 			nodes[terminal].distance == nodes2[terminal].distance)
 			// compare whether the available path is the minimum path
